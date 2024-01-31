@@ -1,0 +1,141 @@
+<table class="source-tableeditor" cellpadding="0" cellspacing="0">
+    <tbody>
+    <tr>
+    <td>Diagnoses:</td>
+    <td colspan="5"><input/></td>
+    </tr>
+    <tr>
+    <td>Prefix</td>
+    <td>ICD-10-CA Code</td>
+    <td colspan="2">Type</td>
+    <td>Cluster</td>
+    <td>ICD-10-CA Code Title</td>
+    </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td colspan="2"></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td colspan="2"></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>Interventions</td>
+    <td colspan="5"></td>
+    </tr>
+    <tr>
+    <td rowspan="5" class="invisible"></td>
+    <td rowspan="2">CCI Code</td>
+    <td colspan="3">Attributes</td>
+    <td rowspan="2">CCI Code Title</td>
+    </tr>
+    <tr>
+    <td>Status</td>
+    <td>Location</td>
+    <td>Extent</td>
+    </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><input/></td>
+    </tr>
+    </tbody>
+    </table>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.11/tinymce.min.js"></script>
+      <script>
+        
+        function myCustomOnChangeHandler(inst) {
+      alert("Some one modified something");
+      alert("The HTML is now:" + inst.getBody().innerHTML);
+    }
+      
+      tinymce.init({
+        selector: 'textarea',
+        content_css: ['base.css', 'generic-tables.css'],
+        plugins: 'table autoresize code contextmenu nonbreaking paste visualchars',
+        menubar: false,
+        toolbar: 'table tablerowprops tablecellprops tablemergecells | alignleft aligncenter alignright fontsizeselect bold styleselect | preparetable code',
+        table_toolbar: 'tablerowprops tablecellprops tablemergecells | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol', // below every table
+        contextmenu: 'tableprops cell row column', // appears on right click
+        autoresize_max_height: 600,
+        formats: {
+          alignright: { selector: 'td,th', classes: 'numeric' },
+        },
+        style_formats: [
+          { title: 'Visually hidden text', inline: 'span', classes: 'visuallyhidden' },
+        ],
+        // only allow table elements, plus a few more useful inline elements
+        // br = if added, TinyMCE adds br's all over the place (but they don't get through to the source code to be copied), causing issues with marking of empty header cells
+        // class: source-tableeditor = in case we need to do something in slimmer
+        valid_elements: 'table[class:source-tableeditor|id],caption,col,colgroup[span],thead,tbody,tfoot,tr[class],td[scope|colspan|rowspan|class],th[scope|colspan|rowspan|class],strong,span[class],abbr[title],br',
+        forced_root_block: false,
+        table_grid: false,
+        table_advtab: false,
+        table_cell_advtab: false,
+        table_row_advtab: false,
+        onchange_callback : "myCustomOnChangeHandler"
+      });</script>
+    
+    <textarea id="tableCreator"></textarea>
+    
+    <button onclick="test()">Test</button>
+    
+    <script>
+    
+        function test() {
+            console.log(tinyMCE.activeEditor.getContent());
+        }
+    
+    </script>
+    
+    <style>
+    
+        table {
+            border-collapse: collapse;
+        }
+    
+        td {
+      border: solid #61C5D2 1px;
+      height: 40px;
+        padding: 10px;
+        position: relative;
+    }
+    
+    td.invisible {
+      border: none;
+    }
+    
+    input {
+      width: 100%;
+      border: none;
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      padding: 10px;
+    }
+    </style>
