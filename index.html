@@ -1,36 +1,37 @@
-<table class="source-tableeditor" cellpadding="0" cellspacing="0">
+<script src="template.js"></script>
+<!-- <table class="source-tableeditor">
     <tbody>
     <tr>
     <td>Diagnoses:</td>
-    <td colspan="5"><input/></td>
+    <td colspan="5"><span class="fillInTheBlank">diagnoses1</span></td>
     </tr>
     <tr>
     <td>Prefix</td>
-    <td>ICD-10-CA Code</td>
-    <td colspan="2">Type</td>
-    <td>Cluster</td>
-    <td>ICD-10-CA Code Title</td>
+    <td><span>ICD-10-CA Code</span></td>
+    <td><span>Type</span></td>
+    <td><span>Cluster</span></td>
+    <td colspan="2">ICD-10-CA Code Title</td>
     </tr>
     <tr>
-    <td></td>
-    <td></td>
-    <td colspan="2"></td>
-    <td></td>
-    <td></td>
+    <td><span class="fillInTheBlank">prefix1</span></td>
+    <td><span class="fillInTheBlank">ICD-10-CA Code1</span></td>
+    <td><span class="fillInTheBlank">type1</span></td>
+    <td><span class="fillInTheBlank">cluster1</span></td>
+    <td colspan="2"><span class="fillInTheBlank">ICD-10-CA Code Title1</span></td>
     </tr>
     <tr>
-    <td></td>
-    <td></td>
-    <td colspan="2"></td>
-    <td></td>
-    <td></td>
+    <td><span class="fillInTheBlank">prefix2</span></td>
+    <td><span class="fillInTheBlank">ICD-10-CA Code2</span></td>
+    <td><span class="fillInTheBlank">type2</span></td>
+    <td><span class="fillInTheBlank">cluster2</span></td>
+    <td colspan="2"><span class="fillInTheBlank">ICD-10-CA Code Title2</span></td>
     </tr>
     <tr>
-    <td>Interventions</td>
-    <td colspan="5"></td>
+    <td>Interventions:</td>
+    <td colspan="5">interventions1</td>
     </tr>
     <tr>
-    <td rowspan="5" class="invisible"></td>
+    <td rowspan="4" class="invisible"></td>
     <td rowspan="2">CCI Code</td>
     <td colspan="3">Attributes</td>
     <td rowspan="2">CCI Code Title</td>
@@ -41,28 +42,21 @@
     <td>Extent</td>
     </tr>
     <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td><span class="fillInTheBlank">cci code1</span></td>
+    <td><span class="fillInTheBlank">status1</span></td>
+    <td><span class="fillInTheBlank">location1</span></td>
+    <td><span class="fillInTheBlank">extent1</span></td>
+    <td><span class="fillInTheBlank">CCI Code Title1</span></td>
     </tr>
     <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    </tr>
-    <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><input/></td>
+    <td><span class="fillInTheBlank">cci code2</span></td>
+    <td><span class="fillInTheBlank">status2</span></td>
+    <td><span class="fillInTheBlank">location2</span></td>
+    <td><span class="fillInTheBlank">extent2</span></td>
+    <td><span class="fillInTheBlank">CCI Code Title2</span></td>
     </tr>
     </tbody>
-    </table>
+    </table> -->
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.11/tinymce.min.js"></script>
       <script>
@@ -74,11 +68,11 @@
       
       tinymce.init({
         selector: 'textarea',
-        content_css: ['base.css', 'generic-tables.css'],
+        content_css: ['generic-tables.css'],
         plugins: 'table autoresize code contextmenu nonbreaking paste visualchars',
         menubar: false,
         toolbar: 'table tablerowprops tablecellprops tablemergecells | alignleft aligncenter alignright fontsizeselect bold styleselect | preparetable code',
-        table_toolbar: 'tablerowprops tablecellprops tablemergecells | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol', // below every table
+        table_toolbar: 'tablemergecells | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol', // below every table
         contextmenu: 'tableprops cell row column', // appears on right click
         autoresize_max_height: 600,
         formats: {
@@ -86,28 +80,66 @@
         },
         style_formats: [
           { title: 'Visually hidden text', inline: 'span', classes: 'visuallyhidden' },
+          {title: "Blue?", selector: "td", classes: "blue"},
+          {title: "Hide Cell", selector: "td", classes: "invisible"},
+          { title: 'Fill in the blank', inline: 'span', classes: 'fillInTheBlank' },
         ],
-        // only allow table elements, plus a few more useful inline elements
-        // br = if added, TinyMCE adds br's all over the place (but they don't get through to the source code to be copied), causing issues with marking of empty header cells
-        // class: source-tableeditor = in case we need to do something in slimmer
         valid_elements: 'table[class:source-tableeditor|id],caption,col,colgroup[span],thead,tbody,tfoot,tr[class],td[scope|colspan|rowspan|class],th[scope|colspan|rowspan|class],strong,span[class],abbr[title],br',
         forced_root_block: false,
         table_grid: false,
         table_advtab: false,
         table_cell_advtab: false,
         table_row_advtab: false,
-        onchange_callback : "myCustomOnChangeHandler"
+        setup:function(ed) {
+        ed.on('change', function(e) {
+            document.getElementById("preview").innerHTML = getContent();
+        });
+   }
       });</script>
     
     <textarea id="tableCreator"></textarea>
+
+    <form>
+        <label>Enter the variable name:</label>
+    <input id="variableInput" class="variableInput"/>
+    </form>
     
-    <button onclick="test()">Test</button>
+    <button onclick="save()">Save</button>
+
+    <div id="preview"></div>
     
     <script>
     
-        function test() {
+        function getContent() {
             console.log(tinyMCE.activeEditor.getContent());
+
+            let content = tinyMCE.activeEditor.getContent();
+
+            let list = [...content.matchAll(/(<span class="fillInTheBlank">)(.*)<\/span>/g, "<input/>")];
+
+            list.forEach(found => {
+                console.log(found[0]);
+                content = content.replace(found[0], `<input ak="${btoa(found[2])}"/>`);
+            });
+
+            return content;
         }
+
+        function save() {
+            downloadToFile(template(getContent(), document.getElementById("variableInput").value), "index.html", "text/plain");
+        }
+
+        const downloadToFile = (content, filename, contentType) => {
+        const a = document.createElement('a');
+        const file = new Blob([content], { type: contentType });
+
+        a.href = URL.createObjectURL(file);
+        a.download = filename;
+        a.click();
+
+        URL.revokeObjectURL(a.href);
+        };
+
     
     </script>
     
@@ -122,6 +154,7 @@
       height: 40px;
         padding: 10px;
         position: relative;
+        text-align: center;
     }
     
     td.invisible {
@@ -138,4 +171,28 @@
       height: 100%;
       padding: 10px;
     }
+
+    input.variableInput {
+        height: unset;
+    width: unset;
+    position: unset;
+    border: solid #209fb0 1px;
+    }
+
+    button {
+    color: #209FB0;
+    border: solid #209FB0 1px;
+    background-color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 7px;
+  }
+
+  button:active {
+    background-color: gainsboro;
+  }
+
+  form, #preview {
+    margin: 20px 0;
+  }
     </style>

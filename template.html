@@ -1,0 +1,123 @@
+<div id="fillInTheBlanksActivity">
+    <table class="source-tableeditor">
+        <tbody>
+        <tr>
+        <td>Diagnoses:</td>
+        <td colspan="5"><input ak="ZGlhZ25vc2VzMQ=="></td>
+        </tr>
+        <tr>
+        <td>Prefix</td>
+        <td><span>ICD-10-CA Code</span></td>
+        <td><span>Type</span></td>
+        <td><span>Cluster</span></td>
+        <td colspan="2">ICD-10-CA Code Title</td>
+        </tr>
+        <tr>
+        <td><input ak="cHJlZml4MQ=="></td>
+        <td><input ak="SUNELTEwLUNBIENvZGUx"></td>
+        <td><input ak="dHlwZTE="></td>
+        <td><input ak="Y2x1c3RlcjE="></td>
+        <td colspan="2"><input ak="SUNELTEwLUNBIENvZGUgVGl0bGUx"></td>
+        </tr>
+        <tr>
+        <td><input ak="cHJlZml4Mg=="></td>
+        <td><input ak="SUNELTEwLUNBIENvZGUy"></td>
+        <td><input ak="dHlwZTI="></td>
+        <td><input ak="Y2x1c3RlcjI="></td>
+        <td colspan="2"><input ak="SUNELTEwLUNBIENvZGUgVGl0bGUy"></td>
+        </tr>
+        <tr>
+        <td>Interventions:</td>
+        <td colspan="5"><input ak="aW50ZXJ2ZW50aW9uczE="></td>
+        </tr>
+        <tr>
+        <td rowspan="4" class="invisible"></td>
+        <td rowspan="2">CCI Code</td>
+        <td colspan="3">Attributes</td>
+        <td rowspan="2">CCI Code Title</td>
+        </tr>
+        <tr>
+        <td>Status</td>
+        <td>Location</td>
+        <td>Extent</td>
+        </tr>
+        <tr>
+        <td><input ak="Y2NpIGNvZGUx"></td>
+        <td><input ak="c3RhdHVzMQ=="></td>
+        <td><input ak="bG9jYXRpb24x"></td>
+        <td><input ak="ZXh0ZW50MQ=="></td>
+        <td><input ak="Q0NJIENvZGUgVGl0bGUx"></td>
+        </tr>
+        <tr>
+        <td><input ak="Y2NpIGNvZGUy"></td>
+        <td><input ak="c3RhdHVzMg=="></td>
+        <td><input ak="bG9jYXRpb24y"></td>
+        <td><input ak="ZXh0ZW50Mg=="></td>
+        <td><input ak="Q0NJIENvZGUgVGl0bGUy"></td>
+        </tr>
+        </tbody>
+        </table>
+</div>
+
+    <button onclick="grade()">SUBMIT</button>
+
+    <script>
+        function grade() {
+            let blanks = document.getElementById("fillInTheBlanksActivity").querySelectorAll("input");
+            let score = 0;
+
+            blanks.forEach(blank => {
+                atob(blank.getAttribute("ak")).toLowerCase().trim() == blank.value.toLowerCase().trim() ? score++ : null;
+            });
+
+            let grade = (score / blanks.length) * 100;
+
+            let player = window.parent.GetPlayer();
+            player.SetVar("JordanTestGrade", grade);
+
+            console.log("You got ", grade, "%");
+        }
+    </script>
+
+    <style>
+    
+        table {
+            border-collapse: collapse;
+        }
+    
+        td {
+      border: solid #61C5D2 1px;
+      height: 40px;
+        padding: 10px;
+        position: relative;
+        text-align: center;
+    }
+    
+    td.invisible {
+      border: none;
+    }
+    
+    input {
+      width: 100%;
+      border: none;
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      padding: 10px;
+    }
+
+    button {
+    color: #209FB0;
+    border: solid #209FB0 1px;
+    background-color: white;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 7px;
+  }
+
+  button:active {
+    background-color: gainsboro;
+  }
+    </style>
