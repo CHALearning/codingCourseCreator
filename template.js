@@ -11,7 +11,13 @@ function grade() {
     let score = 0;
 
     blanks.forEach(blank => {
-        atob(blank.getAttribute("ak")).toLowerCase().trim() == blank.value.toLowerCase().trim() ? score++ : null;
+        if (atob(blank.getAttribute("ak")).toLowerCase().trim() == blank.value.toLowerCase().trim()){
+            blank.classList.remove("incorrect");
+            score++
+        }
+        else {
+            blank.classList.add("incorrect");
+        }
     });
 
     let grade = (score / blanks.length) * 100;
@@ -50,6 +56,10 @@ left: 0;
 top: 0;
 height: 100%;
 padding: 10px;
+}
+
+input.incorrect {
+    border: solid red;
 }
 
 button {
