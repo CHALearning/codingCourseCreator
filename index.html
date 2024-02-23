@@ -79,10 +79,9 @@
           alignright: { selector: 'td,th', classes: 'numeric' },
         },
         style_formats: [
-          { title: 'Visually hidden text', inline: 'span', classes: 'visuallyhidden' },
-          {title: "Blue?", selector: "td", classes: "blue"},
           {title: "Hide Cell", selector: "td", classes: "invisible"},
           { title: 'Fill in the blank', inline: 'span', classes: 'fillInTheBlank' },
+          { title: 'Autofill', inline: 'span', classes: 'autofill' },
         ],
         valid_elements: 'table[class:source-tableeditor|id],caption,col,colgroup[span],thead,tbody,tfoot,tr[class],td[scope|colspan|rowspan|class],th[scope|colspan|rowspan|class],strong,span[class],abbr[title],br',
         forced_root_block: false,
@@ -115,11 +114,19 @@
 
             let content = tinyMCE.activeEditor.getContent();
 
-            let list = [...content.matchAll(/(<span class="fillInTheBlank">)(.*)<\/span>/g, "<input/>")];
+            let list = [...content.matchAll(/(<span class="fillInTheBlank">)(.*)<\/span>/g)];
 
             list.forEach(found => {
-                console.log(found[0]);
+                console.log(found);
                 content = content.replace(found[0], `<input ak="${btoa(found[2])}"/>`);
+            });
+
+            let autofillList = [...content.matchAll(/(<span class="autofill">)(.*)<\/span>/g)];
+
+            autofillList.forEach(found => {
+                console.log(found);
+                let autofillVars = found[2].split("::");
+                content = content.replace(found[0], `<span class="autofill" afv="${btoa(autofillVars[0])}" ak="${btoa(autofillVars[1])}"></span>`);
             });
 
             return content;

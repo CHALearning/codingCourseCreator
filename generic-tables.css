@@ -51,19 +51,15 @@ table {
     position: absolute;
     left: 0;
   }
-  
-  span.visuallyhidden {
-    color: #999;
-    border: 1px dotted;
-  }
 
   span.fillInTheBlank {
     background-color: rgb(255, 255, 194);
     border: 1px dotted gray;
   }
 
-  .blue {
-    background-color: blue;
+  span.autofill {
+    background-color: #89c0f0;
+    border: 1px dotted gray;
   }
 
   .invisible {

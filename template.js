@@ -27,6 +27,24 @@ function grade() {
 
     console.log("You got ", grade, "%");
 }
+
+function onInputChange(ev) {
+    let autofillEl = ev.target.parentElement.parentElement.querySelector(".autofill");
+
+    if (autofillEl){
+        if (atob(autofillEl.getAttribute("afv")).toLowerCase().trim() == ev.target.value.toLowerCase().trim()){
+        autofillEl.innerText = atob(autofillEl.getAttribute("ak")).trim();
+        }
+        else {
+            autofillEl.innerText = "";
+        }
+    }
+}
+
+let inputs = document.querySelectorAll("input");
+inputs.forEach(input => {
+    input.addEventListener("input", onInputChange);
+});
 </script>
 
 <style>
